@@ -9,14 +9,7 @@ namespace PryConexionSQLServer
         private ClassConexionDB db;
 
         private const string CONNECTION_STRING =
-            "Server=PC142;Database=NEPTUNO;User Id=sa;Password=sa;";
-
-        private readonly string[] tablas = new string[]
-        {
-            "Categorías", "Clientes", "Compañías de envíos",
-            "Detalles de pedidos", "Empleados", "Pedidos",
-            "Productos", "Proveedores"
-        };
+            "Server=PC200;Database=Negocio;User Id=sa;Password=sa";
 
         public frmPrincipal()
         {
@@ -28,8 +21,17 @@ namespace PryConexionSQLServer
             db = new ClassConexionDB(CONNECTION_STRING);
             IntentarConectar();
 
+            DataTable dtTablas = db.ObtenerTablas();
+
             cmbTablas.Items.Clear();
-            cmbTablas.Items.AddRange(tablas);
+
+            foreach (DataRow row in dtTablas.Rows)
+            {
+                cmbTablas.Items.Add(row["TABLE_NAME"].ToString());
+            }
+
+            if (cmbTablas.Items.Count > 0)
+                cmbTablas.SelectedIndex = 0;
             cmbTablas.SelectedIndex = 0;
         }
 

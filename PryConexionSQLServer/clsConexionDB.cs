@@ -76,5 +76,16 @@ namespace PryConexionSQLServer
             if (conn != null && conn.State == ConnectionState.Open)
                 conn.Close();
         }
+        public DataTable ObtenerTablas()
+        {
+            string query = @"SELECT TABLE_NAME 
+                     FROM INFORMATION_SCHEMA.TABLES 
+                     WHERE TABLE_TYPE = 'BASE TABLE'";
+
+            DataTable dt = new DataTable();
+            SqlDataAdapter da = new SqlDataAdapter(query, conn);
+            da.Fill(dt);
+            return dt;
+        }
     }
 }
